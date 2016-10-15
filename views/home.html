@@ -1,0 +1,121 @@
+<script type="text/ng-template" id="productImage.html">
+  <div class="modal-header">
+      <h3 class="modal-title" id="modal-title-{{selectedProduct.id}}"> {{selectedProduct.name}} </h3>
+  </div>
+  <div class="modal-body" id="modal-body-{{selectedProduct.name}}">
+      <img  class="img-responsive center-block" src="{{selectedProduct.image}}" >
+      <div>
+        <p> {{selectedProduct.description}} </p>
+      </div>
+  </div>
+</script>
+
+<div>
+  <div class="jumbotron">
+    <h1> Fusion Style </h1>
+    <p> Fashion is nothing without people! </p>
+  </div>
+  <div class="repos" id="search-area">
+    <h1> Search Products </h1>
+
+    <div class="row">
+
+      <div class="col-md-6 col-sm-12">
+
+        <div class="input-group">
+          <input class="form-control" type="text" ng-model="searchText" uib-typeahead="category for category in categories | filter:$viewValue | limitTo:4"
+            placeholder="Search (by Name or Category)" />
+          <div class="input-group-btn">
+            <button class="btn btn-default" type="button" ng-click="clearSearchText()">
+              <span ng-class="searchText ? 'glyphicon-remove' : 'glyphicon-search'" class="glyphicon" aria-hidden="true"></span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="row">
+
+      <div class="col-md-10 col-sm-12">
+        <label> Price Range </label>
+        <rzslider rz-slider-model="priceRange.min" rz-slider-high="priceRange.max" rz-slider-options="priceRange.options"></rzslider>
+      </div>
+
+      <div class="col-md-2 col-sm-12">
+        <div class="btn-group pull-right" keyboard-nav uib-dropdown dropdown-append-to-body>
+          <button id="btn-append-to-body" type="button" class="btn btn-default" uib-dropdown-toggle>
+            <span class="glyphicon glyphicon-sort" aria-hidden="true"></span> Sort <span class="caret"></span> 
+          </button>
+          <ul class="dropdown-menu-right" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-body">
+            <li role="menuitem" ng-click="sortProducts('price', 1)">
+              <a href> <span class="glyphicon glyphicon-sort-by-attributes" aria-hidden="true"></span> <span> Price : Low to High </span>                </a>
+            </li>
+            <li role="menuitem" ng-click="sortProducts('price', -1)">
+              <a href> <span class="glyphicon glyphicon-sort-by-attributes-alt" aria-hidden="true"></span> <span> Price : High to Low </span>                </a>
+            </li>
+            <li class="divider"></li>
+            <li role="menuitem" ng-click="sortProducts('rating', 1)">
+              <a href> <span class="glyphicon glyphicon-sort-by-attributes" aria-hidden="true"></span> <span> Rating : Low to High </span>                </a>
+            </li>
+            <li role="menuitem" ng-click="sortProducts('rating', -1)">
+              <a href> <span class="glyphicon glyphicon-sort-by-attributes-alt" aria-hidden="true"></span> <span> Rating : High to Low </span>                </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <label ng-if="appliedFilter"> Filters Applied </label>
+        <div ng-if="appliedFilter">
+          <button class="btn btn-sm btn-info" type="button">
+           <span> {{appliedFilter.property}} : {{appliedFilter.direction}} </span> 
+           <span class="glyphicon glyphicon-remove" aria-hidden="true" ng-click="clearSort()"></span>
+         </button>
+        </div>
+        <div class="pull-right">
+          <h3> Total Product Count : {{filteredProducts.length}} | API Hits : {{APIHits}} </h3>
+        </div>
+      </div>
+    </div>
+
+    <div cg-busy="fetchingProducts">
+      <div class="products-list">
+        <div class="product col-md-3 col-sm-4 col-xs-6" ng-repeat="product in products | productsFilter:searchText:priceRange.min:priceRange.max as filteredProducts">
+          <div class="product-image-container">
+            <img class="img-responsive center-block" src={{product.image}} ng-click="openImageModal(product)">
+            <span ng-class="product.isWishListed ? 'glyphicon-star' : 'glyphicon-star-empty'" class="glyphicon pull-left wish-list" tooltip-append-to-body=true
+              uib-tooltip="{{product.isWishListed ? 'Added' : 'Add'}} to WishList" aria-hidden="true" ng-click="toggleWishList($event, product)"></span>
+            <div class="product-color" tooltip-append-to-body=true uib-tooltip="Color" ng-style="{'background' : product.color}"></div>
+          </div>
+
+          <div class="product-detail">
+            <strong class="product-name"> {{product.name}} </strong>
+            <div class="product-price-cat">
+              <div class="pull-left">
+                <small>
+                  <span class="glyphicon glyphicon-tags tag-icon" aria-hidden="true"></span>
+                  <span> {{categories[product.category]}} </span> 
+                </small>
+              </div>
+              <div class="pull-right">
+                <span> ₹{{product.price}} </span>
+              </div>
+            </div>
+            <div>
+              <span class="pull-right" uib-rating tooltip-append-to-body=true uib-tooltip="Rating : {{product.rating}}/5" ng-model="product.rating"
+                read-only=true></span>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>

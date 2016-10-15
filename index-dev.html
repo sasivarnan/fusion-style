@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+
+<html ng-app="angularApp">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Fusion Style</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="lib/style/bootstrap.min.css">
+  <link rel="stylesheet" href="lib/style/angular-busy.min.css" />
+  <link rel="stylesheet" href="lib/style/rzslider.min.css" />
+  
+  <link rel="stylesheet" href="app.css">
+</head>
+
+<body>
+
+  <nav class="navbar navbar-default navbar-fixed-top" ng-controller="HeaderController">
+    <div class="container">
+      <a class="navbar-brand" href="#!/">Fusion Style</a>
+      <ul class="nav navbar-nav pull-right">
+        <li ng-class="{ active: isActive('/')}"><a href="#!/">Home</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="container view-content">
+    <div ng-view></div>
+  </div>
+
+  <div class="footer">
+    <div class="container">
+      <p> &copy; Fusion Style. Built by <a href="https://github.com/sasivarnan">Sasivarnan R</a> </p>
+    </div>
+  </div>
+
+  <script src="lib/script/angular.min.js"></script>
+  <script src="lib/script/angular-route.min.js"></script>
+  <script src="lib/script/ui-bootstrap-tpls.min.js"></script>
+  <script src="lib/script/angular-busy.min.js"></script>
+  <script src="lib/script/rzslider.min.js"></script>
+  <script src="app.js"></script>
+</body>
+
+</html>
